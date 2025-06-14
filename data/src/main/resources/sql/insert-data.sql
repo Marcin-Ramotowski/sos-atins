@@ -24,11 +24,11 @@ INSERT INTO Department (created_on, last_updated_on, head_of_department, localiz
 
 -- Teacher
 INSERT INTO Teacher (user_id, department_id, degree, employment_type, hire_date, office_number, title) VALUES
-(0, 0, 'PhD', 'Full-time', NOW(), '101A', 'Dr.');
+(0, 0, 'PhD', 'FULL_TIME', NOW(), '101A', 'Dr.');
 
 -- Student
 INSERT INTO Student (user_id, department_id, agreement_num, avg_score, title_of_grade, current_semester, graduation_date, enrollment_year, enroll_semester, mode_of_study, scholarship_holder, specialization, student_number) VALUES
-(1, 0, 123456, 4.5, 'Bachelor', 4, '2025-06-30', '2021-10-01', 1, 'Full-time', TRUE, 'Software Engineering', 2021001);
+(1, 0, 123456, 4.5, 'BACHELOR', 4, '2025-06-30', '2021-10-01', 1, 'FULL_TIME', TRUE, 'COMPUTER_GRAPHICS', 2021001);
 
 -- Subject
 INSERT INTO Subject (description, name, type, created_on, last_updated_on) VALUES

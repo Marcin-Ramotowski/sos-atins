@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Teacher (
 	user_id INTEGER NOT NULL PRIMARY KEY,
 	department_id INTEGER NOT NULL,
     degree VARCHAR(64) NOT NULL,
-    employment_type VARCHAR(64) NOT NULL,
+    employment_type VARCHAR(64) NOT NULL, -- to będzie enum w Javie
     hire_date DATETIME NOT NULL,
     office_number VARCHAR(16) NOT NULL,
     title VARCHAR(64) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Student (
 	department_id INTEGER NOT NULL,
 	agreement_num INTEGER NOT NULL,
 	avg_score REAL NOT NULL,
-	title_of_grade VARCHAR(64), -- to będzie enum w Javie
+	title_of_grade VARCHAR(64) NOT NULL, -- to będzie enum w Javie
 	current_semester INTEGER NOT NULL,
 	graduation_date DATE NOT NULL,
 	enrollment_year DATE NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS Student (
 	mode_of_study VARCHAR(64) NOT NULL, -- to będzie enum w Javie
 	scholarship_holder BOOLEAN NOT NULL,
 	specialization VARCHAR(64) NOT NULL, -- to będzie enum w Javie
-	student_number INTEGER NOT NULL,
+	student_number INTEGER NOT NULL UNIQUE,
 
 	FOREIGN KEY (user_id) REFERENCES User(id),
     FOREIGN KEY (department_id) REFERENCES Department(id)
