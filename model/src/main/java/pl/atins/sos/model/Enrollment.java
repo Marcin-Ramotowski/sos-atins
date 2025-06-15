@@ -52,4 +52,14 @@ public class Enrollment extends BaseEntity {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "subject=" + subject +
+                ", student=" + student +
+                ", enrollmentDate=" + enrollmentDate +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

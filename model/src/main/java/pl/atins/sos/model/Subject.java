@@ -49,4 +49,13 @@ public class Subject extends BaseEntity {
     public Set<Teacher> getTeachers() {
         return teachers;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
