@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Subject extends BaseEntity {
 
     @Column(name = "description")

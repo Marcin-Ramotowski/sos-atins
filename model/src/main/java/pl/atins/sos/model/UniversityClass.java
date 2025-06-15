@@ -6,7 +6,6 @@ import java.time.OffsetTime;
 
 @Entity
 @Table(name = "Class")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class UniversityClass extends BaseEntity {
 
     // TODO: add one-to-many for Schedule once implemented
