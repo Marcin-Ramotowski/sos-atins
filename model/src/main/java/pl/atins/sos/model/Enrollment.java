@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Enrollment extends BaseEntity {
 
     @ManyToOne(optional = false)
@@ -52,5 +51,15 @@ public class Enrollment extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "subject=" + subject +
+                ", student=" + student +
+                ", enrollmentDate=" + enrollmentDate +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

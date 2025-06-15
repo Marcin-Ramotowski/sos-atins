@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Subject extends BaseEntity {
 
     @Column(name = "description")
@@ -49,5 +48,14 @@ public class Subject extends BaseEntity {
 
     public Set<Teacher> getTeachers() {
         return teachers;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }
