@@ -5,17 +5,18 @@ import jakarta.persistence.*;
 import java.time.OffsetTime;
 
 @Entity
+@Table(name = "Class")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Class extends BaseEntity {
+public class UniversityClass extends BaseEntity {
 
     // TODO: add one-to-many for Schedule once implemented
 
-    @Column(name = "subject_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @Column(name = "teacher_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
     @Column(name = "week_day", nullable = false)
@@ -87,5 +88,18 @@ public class Class extends BaseEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Class{" +
+                "subject=" + subject +
+                ", teacher=" + teacher +
+                ", weekDay='" + weekDay + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", room='" + room + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

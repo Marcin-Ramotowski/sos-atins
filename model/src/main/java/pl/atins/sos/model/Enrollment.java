@@ -8,12 +8,12 @@ import java.time.LocalDate;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Enrollment extends BaseEntity {
 
-    @Column(name = "subject_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @Column(name = "student_id", nullable = false)
     @OneToOne
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @Column(name = "enrollment_date", nullable = false)
