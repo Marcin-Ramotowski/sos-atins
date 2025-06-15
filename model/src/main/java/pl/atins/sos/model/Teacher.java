@@ -1,13 +1,9 @@
 package pl.atins.sos.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "Teacher")
@@ -31,6 +27,12 @@ public class Teacher extends User {
 
     @Column(name = "title", nullable = false)
     private String title;
+
+    @ManyToMany
+    @JoinTable(name = "TeacherSubject",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private Set<Subject> subjects;
 
     public String getDegree() {
         return degree;
@@ -70,5 +72,9 @@ public class Teacher extends User {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
     }
 }
