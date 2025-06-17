@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/loans/303"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "loan-response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

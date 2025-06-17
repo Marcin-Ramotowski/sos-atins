@@ -1,0 +1,12 @@
+{
+  "id": 101,
+  "student_id": 1,
+  "createdOn": "2025-06-14T12:34:56+00:00",
+  "lastUpdatedOn": "2025-06-14T13:45:00+00:00",
+  "amount": 199.99,
+  "paymentDate": "2025-06-14",
+  "paymentMethod": "Credit Card",
+  "referenceCode": "REF20250614XYZ",
+  "status": "COMPLETED",
+  "title": "Payment for Semester #2"
+}
