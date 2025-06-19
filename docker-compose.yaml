@@ -1,0 +1,20 @@
+services:
+  sos-atins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mock-library-service
+      - mock-payment-service
+
+  mock-library-service:
+    build:
+      context: ./mock-library-service
+      dockerfile: Dockerfile
+
+  mock-payment-service:
+    build:
+      context: ./mock-payment-service
+      dockerfile: Dockerfile

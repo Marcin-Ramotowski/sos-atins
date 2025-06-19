@@ -7,12 +7,13 @@ Najpierw co najmniej raz zbuduj projekt za pomocą komendy:
 mvn clean package
 ```
 To polecenie wygeneruje w katalogu `web/target` paczkę WAR 
-niezbędną do zbudowania kontenera.
-Następnie zbuduj i uruchom kontener za pomocą poniższych poleceń:
+niezbędną do zbudowania kontenera aplikacji.
+
+Następnie zbuduj i uruchom kontenery całego systemu:
 ```bash
-sudo docker build . -t sos-atins
-sudo docker run -p 8080:8080 sos-atins
+ sudo docker compose up
 ```
+
 ## Testowy punkt końcowy
 ```bash
 GET http://localhost:8080/test
