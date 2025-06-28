@@ -1,4 +1,4 @@
-package pl.atins.sos.data.http.config;
+package pl.atins.sos.data.dao.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

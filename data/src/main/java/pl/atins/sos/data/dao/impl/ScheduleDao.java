@@ -1,21 +1,20 @@
-package pl.atins.sos.data;
+package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
-import pl.atins.sos.model.Grade;
+import pl.atins.sos.model.Schedule;
 
 import java.util.List;
 
 @Repository
-public class GradeDao {
-
+public class ScheduleDao {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Grade> findAll() {
-        Query query = em.createQuery("from Grade");
-        return (List<Grade>) query.getResultList();
+    public List<Schedule> findAll() {
+        Query query = em.createQuery("from Schedule");
+        return (List<Schedule>) query.getResultList();
     }
 }

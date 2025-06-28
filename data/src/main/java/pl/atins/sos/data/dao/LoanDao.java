@@ -1,4 +1,4 @@
-package pl.atins.sos.data.api;
+package pl.atins.sos.data.dao;
 
 import pl.atins.sos.model.external.Loan;
 
