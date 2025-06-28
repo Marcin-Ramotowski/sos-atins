@@ -12,7 +12,6 @@
     <modules>
         <module>model</module>
         <module>data</module>
-        <module>service</module>
         <module>web</module>
     </modules>
 

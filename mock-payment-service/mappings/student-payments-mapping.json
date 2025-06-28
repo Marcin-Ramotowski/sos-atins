@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/students/1/payments"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "student-payments-response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
