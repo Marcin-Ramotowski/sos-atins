@@ -1,9 +1,9 @@
-package pl.atins.sos.data.http;
+package pl.atins.sos.data.dao.impl;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
-import pl.atins.sos.data.api.BookDao;
+import pl.atins.sos.data.dao.BookDao;
 import pl.atins.sos.model.external.Book;
 
 import java.util.List;

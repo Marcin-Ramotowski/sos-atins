@@ -1,4 +1,4 @@
-package pl.atins.sos.data;
+package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

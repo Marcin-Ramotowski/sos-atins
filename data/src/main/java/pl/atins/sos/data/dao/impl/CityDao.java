@@ -1,21 +1,21 @@
-package pl.atins.sos.data;
+package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
-import pl.atins.sos.model.Department;
+import pl.atins.sos.model.City;
 
 import java.util.List;
 
 @Repository
-public class DepartmentDao {
+public class CityDao {
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<Department> findAll() {
-        Query query = em.createQuery("from Department");
-        return (List<Department>) query.getResultList();
+    public List<City> findAll() {
+        Query query = em.createQuery("from City");
+        return (List<City>) query.getResultList();
     }
 }

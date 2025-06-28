@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.atins.sos.data.api.PaymentDao;
+import pl.atins.sos.data.dao.PaymentDao;
 import pl.atins.sos.model.external.Payment;
 
 import java.util.List;
