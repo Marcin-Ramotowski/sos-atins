@@ -1,6 +1,17 @@
 package pl.atins.sos.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -9,8 +20,6 @@ import java.util.Set;
 @Table(name = "Teacher")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Teacher extends User {
-
-    // TODO: Add Department once implemented
 
     @Column(name = "degree", nullable = false)
     private String degree;
@@ -28,6 +37,12 @@ public class Teacher extends User {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "TeacherSubject",
             joinColumns = @JoinColumn(name = "teacher_id"),
