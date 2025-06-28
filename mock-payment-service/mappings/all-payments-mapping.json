@@ -1,11 +1,11 @@
 {
   "request": {
     "method": "GET",
-    "url": "/api/loans/303"
+    "url": "/api/payments"
   },
   "response": {
     "status": 200,
-    "bodyFileName": "loan-response.json",
+    "bodyFileName": "all-payments-response.json",
     "headers": {
       "Content-Type": "application/json"
     }
