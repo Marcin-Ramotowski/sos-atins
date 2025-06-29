@@ -1,5 +1,6 @@
 package pl.atins.sos.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -16,6 +17,12 @@ public class User extends BaseEntity {
     @Column(name = "admin", nullable = false)
     private boolean admin;
 
+    @Column(name = "active", nullable = false)
+    private boolean active;
+
+    @Column(name = "mfa_enabled", nullable = false)
+    private boolean mfaEnabled;
+
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
@@ -31,6 +38,7 @@ public class User extends BaseEntity {
     @Column(name = "login", unique = true, nullable = false)
     private String login;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private byte[] password;
 
@@ -40,6 +48,22 @@ public class User extends BaseEntity {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isMfaEnabled() {
+        return mfaEnabled;
+    }
+
+    public void setMfaEnabled(boolean mfaEnabled) {
+        this.mfaEnabled = mfaEnabled;
     }
 
     public LocalDate getBirthDate() {

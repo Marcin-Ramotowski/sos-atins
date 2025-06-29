@@ -10,11 +10,9 @@ import pl.atins.sos.data.dao.impl.GradeDao;
 import pl.atins.sos.data.dao.impl.ScheduleDao;
 import pl.atins.sos.data.dao.impl.SubjectDao;
 import pl.atins.sos.data.dao.impl.TranscriptDao;
-import pl.atins.sos.data.dao.impl.UserDao;
 import pl.atins.sos.model.Enrollment;
 import pl.atins.sos.model.Subject;
 import pl.atins.sos.model.UniversityClass;
-import pl.atins.sos.model.User;
 
 import java.util.stream.Collectors;
 
@@ -22,7 +20,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/test")
 public class TestController {
 
-    private final UserDao userDao;
     private final ClassDao classDao;
     private final EnrollmentDao enrollmentDao;
     private final SubjectDao subjectDao;
@@ -31,8 +28,7 @@ public class TestController {
     private final TranscriptDao transcriptDao;
     private final DepartmentDao departmentDao;
 
-    public TestController(UserDao userDao, ClassDao classDao, EnrollmentDao enrollmentDao, SubjectDao subjectDao, ScheduleDao scheduleDao, GradeDao gradeDao, TranscriptDao transcriptDao, DepartmentDao departmentDao) {
-        this.userDao = userDao;
+    public TestController(ClassDao classDao, EnrollmentDao enrollmentDao, SubjectDao subjectDao, ScheduleDao scheduleDao, GradeDao gradeDao, TranscriptDao transcriptDao, DepartmentDao departmentDao) {
         this.classDao = classDao;
         this.enrollmentDao = enrollmentDao;
         this.subjectDao = subjectDao;
@@ -40,14 +36,6 @@ public class TestController {
         this.gradeDao = gradeDao;
         this.transcriptDao = transcriptDao;
         this.departmentDao = departmentDao;
-    }
-
-    @GetMapping
-    public String get() {
-        String usernames = userDao.loadUsers().stream()
-                .map(User::getFirstName)
-                .collect(Collectors.joining(" "));
-        return "Users: " + usernames;
     }
 
     @GetMapping("/class")

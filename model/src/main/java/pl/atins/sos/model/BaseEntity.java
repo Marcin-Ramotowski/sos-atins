@@ -2,6 +2,7 @@ package pl.atins.sos.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
