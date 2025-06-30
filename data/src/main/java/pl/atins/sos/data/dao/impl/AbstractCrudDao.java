@@ -40,4 +40,9 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
     public void delete(T entity) {
         em.remove(entity);
     }
+
+    @Override
+    public void deleteById(long id) {
+        findById(id).ifPresent(this::delete);
+    }
 }
