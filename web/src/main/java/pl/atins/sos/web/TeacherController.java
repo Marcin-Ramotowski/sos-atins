@@ -1,6 +1,5 @@
 package pl.atins.sos.web;
 
-import jakarta.transaction.Transactional;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,18 +35,15 @@ public class TeacherController {
     }
 
     @PutMapping("/{userId}")
-    @Transactional
     public Teacher update(@PathVariable("userId") long userId, @RequestBody Teacher updates) {
-        Teacher teacher = teacherDao.findById(userId).get();
-        teacher.setMfaEnabled(updates.isMfaEnabled());
-        teacher.setEmail(updates.getEmail());
-        return teacherDao.update(teacher).get();
+        return teacherDao.updateById(userId, teacher -> {
+            teacher.setMfaEnabled(updates.isMfaEnabled());
+            teacher.setEmail(updates.getEmail());
+        }).get();
     }
 
     @DeleteMapping("/{userId}")
-    @Transactional
     public void delete(@PathVariable("userId") long userId) {
-        Teacher teacher = teacherDao.findById(userId).get();
-        teacherDao.delete(teacher);
+        teacherDao.deleteById(userId);
     }
 }
