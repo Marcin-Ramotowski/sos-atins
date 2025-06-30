@@ -12,4 +12,10 @@ public interface CrudDao<T extends BaseEntity> {
     Optional<T> update(T entity);
 
     void delete(T entity);
+
+    /**
+     * Find and delete as a single transaction
+     * @param id id of the object to delete
+     */
+    void deleteById(long id);
 }
