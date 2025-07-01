@@ -4,12 +4,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.atins.sos.data.dao.impl.ClassDao;
-import pl.atins.sos.data.dao.impl.DepartmentDao;
+import pl.atins.sos.data.dao.impl.DepartmentDaoImpl;
 import pl.atins.sos.data.dao.impl.EnrollmentDao;
-import pl.atins.sos.data.dao.impl.GradeDao;
-import pl.atins.sos.data.dao.impl.ScheduleDao;
+import pl.atins.sos.data.dao.impl.GradeDaoImpl;
+import pl.atins.sos.data.dao.impl.ScheduleDaoImpl;
 import pl.atins.sos.data.dao.impl.SubjectDao;
-import pl.atins.sos.data.dao.impl.TranscriptDao;
+import pl.atins.sos.data.dao.impl.TranscriptDaoImpl;
 import pl.atins.sos.data.dao.impl.UserDao;
 import pl.atins.sos.model.Enrollment;
 import pl.atins.sos.model.Subject;
@@ -26,20 +26,20 @@ public class TestController {
     private final ClassDao classDao;
     private final EnrollmentDao enrollmentDao;
     private final SubjectDao subjectDao;
-    private final ScheduleDao scheduleDao;
-    private final GradeDao gradeDao;
-    private final TranscriptDao transcriptDao;
-    private final DepartmentDao departmentDao;
+    private final ScheduleDaoImpl scheduleDaoImpl;
+    private final GradeDaoImpl gradeDaoImpl;
+    private final TranscriptDaoImpl transcriptDaoImpl;
+    private final DepartmentDaoImpl departmentDaoImpl;
 
-    public TestController(UserDao userDao, ClassDao classDao, EnrollmentDao enrollmentDao, SubjectDao subjectDao, ScheduleDao scheduleDao, GradeDao gradeDao, TranscriptDao transcriptDao, DepartmentDao departmentDao) {
+    public TestController(UserDao userDao, ClassDao classDao, EnrollmentDao enrollmentDao, SubjectDao subjectDao, ScheduleDaoImpl scheduleDaoImpl, GradeDaoImpl gradeDaoImpl, TranscriptDaoImpl transcriptDaoImpl, DepartmentDaoImpl departmentDaoImpl) {
         this.userDao = userDao;
         this.classDao = classDao;
         this.enrollmentDao = enrollmentDao;
         this.subjectDao = subjectDao;
-        this.scheduleDao = scheduleDao;
-        this.gradeDao = gradeDao;
-        this.transcriptDao = transcriptDao;
-        this.departmentDao = departmentDao;
+        this.scheduleDaoImpl = scheduleDaoImpl;
+        this.gradeDaoImpl = gradeDaoImpl;
+        this.transcriptDaoImpl = transcriptDaoImpl;
+        this.departmentDaoImpl = departmentDaoImpl;
     }
 
     @GetMapping
@@ -75,28 +75,28 @@ public class TestController {
     }
     @GetMapping("/schedule")
     public String getSchedules() {
-        String schedules = scheduleDao.findAll().stream()
+        String schedules = scheduleDaoImpl.findByStudentId(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "Schedules:" + HTML_NEW_LINE + schedules;
     }
     @GetMapping("/grade")
     public String getGrades() {
-        String schedules = gradeDao.findAll().stream()
+        String schedules = gradeDaoImpl.findById(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "grades:" + HTML_NEW_LINE + schedules;
     }
     @GetMapping("/department")
     public String getDepartments() {
-        String schedules = departmentDao.findAll().stream()
+        String schedules = departmentDaoImpl.findById(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "Departments:" + HTML_NEW_LINE + schedules;
     }
     @GetMapping("/transcript")
     public String getTranscripts() {
-        String schedules = transcriptDao.findAll().stream()
+        String schedules = transcriptDaoImpl.findById(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "transcripts:" + HTML_NEW_LINE + schedules;

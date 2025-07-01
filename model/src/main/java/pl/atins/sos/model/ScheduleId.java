@@ -1,7 +1,9 @@
 package pl.atins.sos.model;
 
 
-public class ScheduleId {
+import java.io.Serializable;
+
+public class ScheduleId implements Serializable {
     private Long student;
     private Long clazz;
 
