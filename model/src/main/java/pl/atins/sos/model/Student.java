@@ -1,9 +1,12 @@
 package pl.atins.sos.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
@@ -13,8 +16,6 @@ import java.time.LocalDate;
 @Table(name = "Student")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Student extends User {
-
-    // TODO: Add Department once implemented
 
     @Column(name = "agreement_num", nullable = false)
     private int agreementNum;
@@ -51,6 +52,11 @@ public class Student extends User {
 
     @Column(name = "student_number", nullable = false, unique = true)
     private int studentNumber;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     public int getAgreementNum() {
         return agreementNum;

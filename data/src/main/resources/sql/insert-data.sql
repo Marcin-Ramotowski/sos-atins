@@ -8,10 +8,16 @@ INSERT INTO City (country_id, code, name, created_on, last_updated_on) VALUES
 (0, 'WAW', 'Warsaw', NOW(), NOW()),
 (1, 'BER', 'Berlin', NOW(), NOW());
 
--- Users
-INSERT INTO User (admin, birth_date, email, first_name, last_name, login, password, created_on, last_updated_on) VALUES
-(TRUE, '1980-05-01', 'j.kowalski@uni.edu', 'Jan', 'Kowalski', 'jkowalski', 'aabbcc', NOW(), NOW()), -- ID=0 (teacher)
-(FALSE, '2000-10-10', 'a.nowak@student.uni.edu', 'Anna', 'Nowak', 'anowak', 'aabbcc', NOW(), NOW()); -- ID=1 (student)
+-- Users & Logins
+INSERT INTO User (admin, active, mfa_enabled, birth_date, email, first_name, last_name, login, password, created_on, last_updated_on) VALUES
+(TRUE, TRUE, TRUE, '1980-05-01', 'j.kowalski@uni.edu', 'Jan', 'Kowalski', 'jkowalski', 'aabbcc', NOW(), NOW()), -- ID=0 (teacher)
+(FALSE, TRUE, FALSE, '2000-10-10', 'a.nowak@student.uni.edu', 'Anna', 'Nowak', 'anowak', 'aabbcc', NOW(), NOW()); -- ID=1 (student)
+
+INSERT INTO Login (user_id, succeeded, created_on, last_updated_on) VALUES
+(0, TRUE, NOW(), NOW()),
+(0, TRUE, NOW(), NOW()),
+(1, FALSE, NOW(), NOW()),
+(1, TRUE, NOW(), NOW());
 
 -- Addresses
 INSERT INTO Address (user_id, city_id, is_default, flat, house, postal_code, street, created_on, last_updated_on) VALUES
