@@ -1,12 +1,18 @@
 package pl.atins.sos.data.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Commit;
 import pl.atins.sos.data.dao.GradeDao;
 import pl.atins.sos.data.dao.TeacherDao;
 import pl.atins.sos.data.dao.TranscriptDao;
-import pl.atins.sos.model.*;
+import pl.atins.sos.model.Grade;
+import pl.atins.sos.model.Teacher;
+import pl.atins.sos.model.Transcript;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -14,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Transactional
 class GradeDaoImplTest extends SpringTest {
 
     public static final String COMMENT = "Comment";
@@ -30,8 +37,12 @@ class GradeDaoImplTest extends SpringTest {
     @Autowired
     private TranscriptDao transcriptDao;
 
+    @PersistenceContext
+    EntityManager em;
+
     @Test
     @Order(1)
+    @Commit
     void create() {
         Grade grade = new Grade();
         grade.setGrade(GRADE);
@@ -56,12 +67,11 @@ class GradeDaoImplTest extends SpringTest {
         assertEquals(COMMENT, grade.get().getComment());
         assertNotNull(grade.get().getTeacher());
         assertEquals(0L, grade.get().getTeacher().getId());
-//        assertNotNull(grade.get().getTranscript());
-//        assertEquals(1L, grade.get().getTranscript().getStudent().getId());
     }
 
     @Test
     @Order(3)
+    @Commit
     void update() {
         Optional<Grade> grade = gradeDao.findById(TEST_ID);
         assertTrue(grade.isPresent());
@@ -75,6 +85,7 @@ class GradeDaoImplTest extends SpringTest {
 
     @Test
     @Order(4)
+    @Commit
     void findByStudentId() {
         List<Grade> grades = gradeDao.findByStudentId(1L);
         assertFalse(grades.isEmpty());

@@ -8,9 +8,7 @@ public interface TranscriptDao {
 
     Optional<Transcript> findByStudentId(Long id);
 
-    void createTranscript(Transcript transcript);
+    void create(Transcript transcript);
 
-    Optional<Transcript> updateTranscript(Transcript transcript);
-
-    void deleteTranscript(Transcript transcript);
+    void deleteById(Long transcriptId);
 }

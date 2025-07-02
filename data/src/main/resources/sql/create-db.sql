@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS Enrollment (
 CREATE TABLE IF NOT EXISTS Schedule(
 	student_id INTEGER,
 	class_id INTEGER,
+    PRIMARY KEY (student_id, class_id),
 	FOREIGN KEY (student_id) REFERENCES Student(user_id),
 	FOREIGN KEY (class_id) REFERENCES Class(id)
 );

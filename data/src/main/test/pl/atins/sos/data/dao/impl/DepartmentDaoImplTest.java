@@ -1,9 +1,10 @@
 package pl.atins.sos.data.dao.impl;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.test.annotation.Commit;
 import pl.atins.sos.data.dao.DepartmentDao;
 import pl.atins.sos.model.Department;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Transactional
 public class DepartmentDaoImplTest extends SpringTest {
 
     public static final String LOCALIZATION = "Localization";
@@ -22,10 +24,11 @@ public class DepartmentDaoImplTest extends SpringTest {
     private static long TEST_ID = 0L;
 
     @Autowired
-    DepartmentDao departmentDao;
+    private DepartmentDao departmentDao;
 
     @Test
     @Order(1)
+    @Commit
     void create() {
         Department department = new Department();
         department.setHeadOfDepartment(HEAD);
@@ -53,6 +56,7 @@ public class DepartmentDaoImplTest extends SpringTest {
 
     @Test
     @Order(3)
+    @Commit
     void update() {
         Optional<Department> department = departmentDao.findById(TEST_ID);
         assertTrue(department.isPresent());
@@ -80,6 +84,7 @@ public class DepartmentDaoImplTest extends SpringTest {
 
     @Test
     @Order(99)
+    @Commit
     void deleteById() {
         departmentDao.deleteById(TEST_ID);
         assertFalse(departmentDao.findById(TEST_ID).isPresent());

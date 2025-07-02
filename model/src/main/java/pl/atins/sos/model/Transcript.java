@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Transcript {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(optional = false)
