@@ -84,7 +84,7 @@ public class TestController {
     }
     @GetMapping("/transcript")
     public String getTranscripts() {
-        String schedules = transcriptDao.findById(1L).stream()
+        String schedules = transcriptDao.findByStudentId(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "transcripts:" + HTML_NEW_LINE + schedules;

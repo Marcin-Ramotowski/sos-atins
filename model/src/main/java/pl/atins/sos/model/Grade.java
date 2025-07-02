@@ -1,9 +1,6 @@
 package pl.atins.sos.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Grade extends BaseEntity {
@@ -17,6 +14,10 @@ public class Grade extends BaseEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "transcript_id", nullable = false)
+    private Transcript transcript;
 
     public String getComment() {
         return comment;
@@ -42,12 +43,21 @@ public class Grade extends BaseEntity {
         this.teacher = teacher;
     }
 
+    public Transcript getTranscript() {
+        return transcript;
+    }
+
+    public void setTranscript(Transcript transcript) {
+        this.transcript = transcript;
+    }
+
     @Override
     public String toString() {
         return "Grade{" +
                 "comment='" + comment + '\'' +
                 ", grade=" + grade +
                 ", teacher=" + teacher +
+                ", transcript=" + transcript +
                 '}';
     }
 }

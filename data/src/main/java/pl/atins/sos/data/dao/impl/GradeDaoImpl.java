@@ -18,7 +18,8 @@ public class GradeDaoImpl extends AbstractCrudDao<Grade> implements GradeDao {
 
     @Override
     public List<Grade> findByStudentId(Long studentId) {
-        Query query = em.createQuery("FROM Grade g where g.studentId = :studnetId");
+        Query query = em.createQuery("FROM Grade g JOIN Transcript t on g.transcript = t WHERE t.student.id " +
+                "= :studentId");
         query.setParameter("studentId", studentId);
         return query.getResultList();
     }

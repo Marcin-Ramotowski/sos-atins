@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface TranscriptDao {
 
-    Optional<Transcript> findById(Long id);
+    Optional<Transcript> findByStudentId(Long id);
 
     void createTranscript(Transcript transcript);
 

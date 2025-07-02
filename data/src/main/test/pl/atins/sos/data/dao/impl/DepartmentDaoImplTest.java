@@ -8,6 +8,7 @@ import pl.atins.sos.data.dao.DepartmentDao;
 import pl.atins.sos.model.Department;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +19,8 @@ public class DepartmentDaoImplTest extends SpringTest {
     public static final String HEAD = "Head";
     public static final String NAME = "Name";
     public static final String NEW_NAME = "NewName";
-    public long TEST_ID = 1L;
+    private static long TEST_ID = 0L;
+
     @Autowired
     DepartmentDao departmentDao;
 
@@ -46,7 +48,7 @@ public class DepartmentDaoImplTest extends SpringTest {
         assertTrue(department.get().getCreatedOn().isBefore(OffsetDateTime.now()));
         assertTrue(department.get().getLastUpdatedOn().isBefore(OffsetDateTime.now()));
         assertEquals(LOCALIZATION, department.get().getLocalization());
-        assertEquals(NEW_NAME, department.get().getName());
+        assertEquals(NAME, department.get().getName());
     }
 
     @Test
@@ -59,7 +61,21 @@ public class DepartmentDaoImplTest extends SpringTest {
         Optional<Department> updated = departmentDao.update(departmentToUpdate);
         assertTrue(updated.isPresent());
         assertEquals(departmentToUpdate.getName(), updated.get().getName());
-        assertTrue(department.get().getCreatedOn().isBefore(department.get().getLastUpdatedOn()));
+        assertTrue(updated.get().getCreatedOn().isBefore(updated.get().getLastUpdatedOn()));
+    }
+
+    @Test
+    @Order(4)
+    void findAll() {
+        assertFalse(departmentDao.findAll().isEmpty());
+    }
+
+    @Test
+    @Order(5)
+    void searchByName() {
+        List<Department> departments = departmentDao.searchByName(NEW_NAME);
+        assertFalse(departments.isEmpty());
+        assertEquals(NEW_NAME, departments.getFirst().getName());
     }
 
     @Test

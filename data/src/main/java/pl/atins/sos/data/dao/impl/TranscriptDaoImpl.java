@@ -2,6 +2,7 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.TranscriptDao;
 import pl.atins.sos.model.Transcript;
@@ -15,8 +16,10 @@ public class TranscriptDaoImpl implements TranscriptDao {
     private EntityManager em;
 
     @Override
-    public Optional<Transcript> findById(Long id) {
-        Transcript transcript = em.find(Transcript.class, id);
+    public Optional<Transcript> findByStudentId(Long id) {
+        Query query = em.createQuery("FROM Transcript t where t.student.id = :id");
+        query.setParameter("id", id);
+        Transcript transcript = (Transcript) query.getSingleResult();
         return Optional.of(transcript);
     }
 
