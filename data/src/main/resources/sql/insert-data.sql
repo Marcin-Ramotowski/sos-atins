@@ -61,11 +61,11 @@ INSERT INTO Schedule (student_id, class_id) VALUES
 (1, 0),
 (1, 1);
 
--- Grade
-INSERT INTO Transcript (student_id) VALUES
-    (1);
-
 -- Transcript
+INSERT INTO Transcript (student_id) VALUES
+(1);
+
+-- Grade
 INSERT INTO Grade (teacher_id, transcript_id, created_on, last_updated_on, comment, grade) VALUES
 (0, 0,NOW(), NOW(), 'Good progress', 4.0),
 (0, 0,NOW(), NOW(), 'Excellent', 5.0);
