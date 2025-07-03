@@ -24,7 +24,15 @@ public class DepartmentDaoImpl extends AbstractCrudDao<Department> implements De
 
     @Override
     public List<Department> searchByName(String name) {
-        String searchName = "%" + name + "%";
+        String searchName = "";
+        if(!name.isBlank()){
+            if(!name.startsWith("%")){
+                searchName = "%" + name;
+            }
+            if(!name.endsWith("%")){
+                searchName += "%";
+            }
+        }
         Query query = em.createQuery("FROM Department d where d.name like :name");
         query.setParameter("name", searchName);
         return query.getResultList();
