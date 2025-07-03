@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 public class Schedule {
 
     @Id
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "class_id", nullable = false)
-    private Class clazz;
+    private UniversityClass universityClass;
 
     public Student getStudent() {
         return student;
@@ -24,19 +24,19 @@ public class Schedule {
         this.student = student;
     }
 
-    public Class getClazz() {
-        return clazz;
+    public UniversityClass getUniversityClass() {
+        return universityClass;
     }
 
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
+    public void setUniversityClass(UniversityClass universityClass) {
+        this.universityClass = universityClass;
     }
 
     @Override
     public String toString() {
         return "Schedule{" +
                 "student=" + student +
-                ", clazz=" + clazz +
+                ", clazz=" + universityClass +
                 '}';
     }
 }
