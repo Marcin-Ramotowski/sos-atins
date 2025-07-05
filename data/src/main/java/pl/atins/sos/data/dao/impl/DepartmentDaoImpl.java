@@ -17,12 +17,6 @@ public class DepartmentDaoImpl extends AbstractCrudDao<Department> implements De
     }
 
     @Override
-    public List<Department> findAll() {
-        Query query = em.createQuery("FROM Department");
-        return query.getResultList();
-    }
-
-    @Override
     public List<Department> searchByName(String name) {
         String searchName = "";
         if(!name.isBlank()){

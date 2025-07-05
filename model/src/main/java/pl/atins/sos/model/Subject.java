@@ -1,5 +1,6 @@
 package pl.atins.sos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -16,6 +17,7 @@ public class Subject extends BaseEntity {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "TeacherSubject",
             joinColumns = @JoinColumn(name = "subject_id"),
