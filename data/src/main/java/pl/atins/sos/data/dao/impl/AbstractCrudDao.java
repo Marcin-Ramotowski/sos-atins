@@ -8,6 +8,7 @@ import pl.atins.sos.data.dao.CrudDao;
 import pl.atins.sos.model.BaseEntity;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -20,6 +21,12 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
     protected abstract Class<T> getEntityClass();
 
     private final String entityName = getEntityClass().getSimpleName();
+
+    @Override
+    public List<T> findAll() {
+        Query query = em.createQuery("SELECT e FROM " + entityName + " e");
+        return query.getResultList();
+    }
 
     @Override
     public Optional<T> findById(long id) {
