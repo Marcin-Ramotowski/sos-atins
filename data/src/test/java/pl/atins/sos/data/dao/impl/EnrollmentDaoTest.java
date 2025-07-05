@@ -10,7 +10,6 @@ import pl.atins.sos.model.Student;
 import pl.atins.sos.model.Subject;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,18 +22,20 @@ public class EnrollmentDaoTest extends SpringTest {
 
     @Test
     @Commit
-    void registersStudentForSubject() {
+    void findByStudentId_returnsEnrollmentAfterEnrollment() {
         // Arrange
         Student student = getNewStudent();
         Subject subject = getNewSubject();
 
+        Enrollment enrollment = constructEnrollmentForStudentAndSubject(student, subject);
+
         // Act
-        Optional<Enrollment> enrollment = enrollmentDao.registerStudentForSubject(student.getId(), subject.getId());
+        enrollmentDao.create(enrollment);
+        List<Enrollment> enrollmentsFromFind = enrollmentDao.findByStudentId(student.getId());
 
         // Assert
-        assertTrue(enrollment.isPresent());
-        assertEquals(student.getId(), enrollment.get().getStudent().getId());
-        assertEquals(subject.getId(), enrollment.get().getSubject().getId());
+        assertEquals(1, enrollmentsFromFind.size());
+        assertTrue(containsEnrollmentWithStudentAndSubject(enrollmentsFromFind, student.getId(), subject.getId()));
     }
 
     @Test
@@ -44,29 +45,10 @@ public class EnrollmentDaoTest extends SpringTest {
         Student student = getNewStudent();
 
         // Act
-        List<Enrollment> enrollments = enrollmentDao.getEnrollmentsForStudent(student.getId());
+        List<Enrollment> enrollments = enrollmentDao.findByStudentId(student.getId());
 
         // Assert
         assertEquals(0, enrollments.size());
-    }
-
-    @Test
-    @Commit
-    void getEnrollmentsForStudent_returnsEnrollmentAfterRegistration() {
-        // Arrange
-        Student student = getNewStudent();
-        Subject subject = getNewSubject();
-
-        // Act
-        enrollmentDao.registerStudentForSubject(student.getId(), subject.getId());
-        List<Enrollment> enrollments = enrollmentDao.getEnrollmentsForStudent(student.getId());
-
-        // Assert
-        assertEquals(1, enrollments.size());
-
-        Enrollment enrollment = enrollments.getFirst();
-        assertEquals(student.getId(), enrollment.getStudent().getId());
-        assertEquals(subject.getId(), enrollment.getSubject().getId());
     }
 
     @Test
@@ -76,12 +58,25 @@ public class EnrollmentDaoTest extends SpringTest {
         Student student = getNewStudent();
         Subject subject = getNewSubject();
 
+        Enrollment enrollment = constructEnrollmentForStudentAndSubject(student, subject);
+
         // Act
-        enrollmentDao.registerStudentForSubject(student.getId(), subject.getId());
+        enrollmentDao.create(enrollment);
         enrollmentDao.unregisterStudentFromSubject(student.getId(), subject.getId());
-        List<Enrollment> enrollments = enrollmentDao.getEnrollmentsForStudent(student.getId());
+        List<Enrollment> enrollments = enrollmentDao.findByStudentId(student.getId());
 
         // Assert
         assertEquals(0, enrollments.size());
+    }
+
+    private static boolean containsEnrollmentWithStudentAndSubject(List<Enrollment> list, long studentId, long subjectId) {
+        return list.stream().anyMatch(e -> {
+            Student student = e.getStudent();
+            Subject subject = e.getSubject();
+            return student != null
+                    && student.getId() == studentId
+                    && subject != null
+                    && subject.getId() == subjectId;
+        });
     }
 }

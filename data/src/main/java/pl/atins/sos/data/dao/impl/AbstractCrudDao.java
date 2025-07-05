@@ -30,7 +30,14 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
 
     @Override
     public Optional<T> findById(long id) {
-        return Optional.ofNullable(em.find(getEntityClass(), id));
+        Query query = em.createQuery("SELECT e FROM " + entityName + " e WHERE e.id = :id");
+        query.setParameter("id", id);
+        List<T> result = query.getResultList();
+        if(result.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(result.getFirst());
+        }
     }
 
     @Override
@@ -66,5 +73,9 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
         Query query = em.createQuery("DELETE FROM " + entityName + " e WHERE e.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    protected String getEntityName() {
+        return entityName;
     }
 }

@@ -112,6 +112,7 @@ class SpringTest {
         teacher.setTitle("Dr.");
         teacher.setEmploymentType(EmploymentType.FULL_TIME);
         teacher.setOfficeNumber("101B");
+        teacher.setHireDate(LocalDate.now());
 
         Optional<Department> department = departmentDao.findById(0L);
         assertTrue(department.isPresent());
@@ -142,5 +143,16 @@ class SpringTest {
         uniClass.setTeacher(teacher);
 
         return uniClass;
+    }
+
+    protected Enrollment constructEnrollmentForStudentAndSubject(Student student, Subject subject) {
+        Enrollment enrollment = new Enrollment();
+
+        enrollment.setSubject(subject);
+        enrollment.setStudent(student);
+        enrollment.setStatus("Enrolled");
+        enrollment.setEnrollmentDate(LocalDate.now());
+
+        return enrollment;
     }
 }
