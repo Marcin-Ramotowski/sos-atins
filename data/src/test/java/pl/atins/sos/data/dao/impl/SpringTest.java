@@ -12,9 +12,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import pl.atins.sos.data.dao.DepartmentDao;
 import pl.atins.sos.data.dao.StudentDao;
+import pl.atins.sos.data.dao.SubjectDao;
+import pl.atins.sos.data.dao.TeacherDao;
 import pl.atins.sos.model.*;
 
 import java.time.LocalDate;
+import java.time.OffsetTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -35,6 +38,12 @@ class SpringTest {
 
     @Autowired
     private DepartmentDao departmentDao;
+
+    @Autowired
+    private SubjectDao subjectDao;
+
+    @Autowired
+    private TeacherDao teacherDao;
 
     @Test
     @Order(0)
@@ -71,5 +80,67 @@ class SpringTest {
         student.setDepartment(department.get());
         studentDao.create(student);
         return student;
+    }
+
+    protected Teacher getNewTeacher() {
+        Teacher teacher = constructRandomTeacher();
+        teacherDao.create(teacher);
+        return teacher;
+    }
+
+    protected Subject getNewSubject() {
+        Subject subject = constructRandomSubject();
+        subjectDao.create(subject);
+        return subject;
+    }
+
+    protected Teacher constructRandomTeacher() {
+        Random random = new Random();
+
+        Teacher teacher = new Teacher();
+
+        teacher.setFirstName("FirstName");
+        teacher.setLastName("LastName");
+        teacher.setBirthDate(LocalDate.now());
+        teacher.setEmail("em@i.l");
+        teacher.setAdmin(false);
+        teacher.setLogin("login" + random.nextInt());
+        teacher.setPassword("Password".getBytes());
+        teacher.setMfaEnabled(false);
+        teacher.setActive(true);
+        teacher.setDegree("PhD");
+        teacher.setTitle("Dr.");
+        teacher.setEmploymentType(EmploymentType.FULL_TIME);
+        teacher.setOfficeNumber("101B");
+
+        Optional<Department> department = departmentDao.findById(0L);
+        assertTrue(department.isPresent());
+        teacher.setDepartment(department.get());
+
+        return teacher;
+    }
+
+    protected Subject constructRandomSubject() {
+        Subject subject = new Subject();
+
+        subject.setType("Subject type");
+        subject.setName("Projektowanie i Programowanie Aplikacji Biznesowych");
+        subject.setDescription("Subject description");
+
+        return subject;
+    }
+
+    protected UniversityClass constructRandomClassForSubjectAndTeacher(Subject subject, Teacher teacher) {
+        UniversityClass uniClass = new UniversityClass();
+
+        uniClass.setRoom("1.02");
+        uniClass.setWeekDay("Monday");
+        uniClass.setType("Lecture");
+        uniClass.setStartTime(OffsetTime.now());
+        uniClass.setEndTime(OffsetTime.now());
+        uniClass.setSubject(subject);
+        uniClass.setTeacher(teacher);
+
+        return uniClass;
     }
 }
