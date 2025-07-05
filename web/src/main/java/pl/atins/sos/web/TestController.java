@@ -3,10 +3,16 @@ package pl.atins.sos.web;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.atins.sos.data.dao.impl.DepartmentDao;
-import pl.atins.sos.data.dao.impl.GradeDao;
-import pl.atins.sos.data.dao.impl.ScheduleDao;
-import pl.atins.sos.data.dao.impl.TranscriptDao;
+import pl.atins.sos.data.dao.DepartmentDao;
+import pl.atins.sos.data.dao.GradeDao;
+import pl.atins.sos.data.dao.ScheduleDao;
+import pl.atins.sos.data.dao.TranscriptDao;
+import pl.atins.sos.data.dao.impl.ClassDao;
+import pl.atins.sos.data.dao.impl.EnrollmentDao;
+import pl.atins.sos.data.dao.impl.SubjectDao;
+import pl.atins.sos.model.Enrollment;
+import pl.atins.sos.model.Subject;
+import pl.atins.sos.model.UniversityClass;
 
 import java.util.stream.Collectors;
 
@@ -28,14 +34,14 @@ public class TestController {
 
     @GetMapping("/schedule")
     public String getSchedules() {
-        String schedules = scheduleDao.findAll().stream()
+        String schedules = scheduleDao.findByStudentId(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "Schedules:" + HTML_NEW_LINE + schedules;
     }
     @GetMapping("/grade")
     public String getGrades() {
-        String schedules = gradeDao.findAll().stream()
+        String schedules = gradeDao.findById(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "grades:" + HTML_NEW_LINE + schedules;
@@ -49,7 +55,7 @@ public class TestController {
     }
     @GetMapping("/transcript")
     public String getTranscripts() {
-        String schedules = transcriptDao.findAll().stream()
+        String schedules = transcriptDao.findByStudentId(1L).stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(HTML_NEW_LINE));
         return "transcripts:" + HTML_NEW_LINE + schedules;

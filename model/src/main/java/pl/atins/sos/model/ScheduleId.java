@@ -1,16 +1,18 @@
 package pl.atins.sos.model;
 
 
-public class ScheduleId {
+import java.io.Serializable;
+
+public class ScheduleId implements Serializable {
     private Long student;
-    private Long clazz;
+    private Long universityClass;
 
     public ScheduleId() {
     }
 
-    public ScheduleId(Long student, Long clazz) {
+    public ScheduleId(Long student, Long universityClass) {
         this.student = student;
-        this.clazz = clazz;
+        this.universityClass = universityClass;
     }
 
     public Long getStudent() {
@@ -21,11 +23,11 @@ public class ScheduleId {
         this.student = student;
     }
 
-    public Long getClazz() {
-        return clazz;
+    public Long getUniversityClass() {
+        return universityClass;
     }
 
-    public void setClazz(Long clazz) {
-        this.clazz = clazz;
+    public void setUniversityClass(Long universityClass) {
+        this.universityClass = universityClass;
     }
 }

@@ -1,15 +1,15 @@
 package pl.atins.sos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Transcript {
 
     @Id
-    @ManyToOne(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
@@ -21,10 +21,19 @@ public class Transcript {
         this.student = student;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Transcript{" +
-                "student=" + student +
+                "id=" + id +
+                ", student=" + student +
                 '}';
     }
 }
