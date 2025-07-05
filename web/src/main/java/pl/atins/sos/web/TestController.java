@@ -7,12 +7,6 @@ import pl.atins.sos.data.dao.DepartmentDao;
 import pl.atins.sos.data.dao.GradeDao;
 import pl.atins.sos.data.dao.ScheduleDao;
 import pl.atins.sos.data.dao.TranscriptDao;
-import pl.atins.sos.data.dao.impl.ClassDao;
-import pl.atins.sos.data.dao.impl.EnrollmentDao;
-import pl.atins.sos.data.dao.impl.SubjectDao;
-import pl.atins.sos.model.Enrollment;
-import pl.atins.sos.model.Subject;
-import pl.atins.sos.model.UniversityClass;
 
 import java.util.stream.Collectors;
 
