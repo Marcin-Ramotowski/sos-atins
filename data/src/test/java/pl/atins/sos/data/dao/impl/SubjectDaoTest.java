@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-public class SubjectDaoTest extends SpringTest {
+public class SubjectDaoTest extends BaseIntegrationTest {
 
     @Autowired
     private SubjectDao subjectDao;
@@ -27,6 +27,8 @@ public class SubjectDaoTest extends SpringTest {
 
         // Act
         subjectDao.create(addedSubject);
+        flushContext();
+
         List<Subject> subjects = subjectDao.findAll();
 
         // Assert
@@ -42,6 +44,8 @@ public class SubjectDaoTest extends SpringTest {
 
         // Act
         subjectDao.create(addedSubject);
+        flushContext();
+
         Optional<Subject> subjectFromFind = subjectDao.findById(addedSubject.getId());
 
         // Assert
@@ -57,7 +61,11 @@ public class SubjectDaoTest extends SpringTest {
 
         // Act
         subjectDao.create(subject);
+        flushContext();
+
         subjectDao.deleteById(subject.getId());
+        flushContext();
+
         Optional<Subject> subjectFromFind = subjectDao.findById(subject.getId());
 
         // Assert

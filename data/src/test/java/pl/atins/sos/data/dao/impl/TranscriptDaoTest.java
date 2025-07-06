@@ -11,10 +11,13 @@ import pl.atins.sos.model.Transcript;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-class TranscriptDaoImplTest extends SpringTest {
+class TranscriptDaoTest extends BaseIntegrationTest {
     private static long TEST_ID = 0L;
 
     @Autowired
@@ -24,7 +27,7 @@ class TranscriptDaoImplTest extends SpringTest {
     @Order(1)
     @Commit
     void create() {
-        Student student = getNewStudent();
+        Student student = constructAndPersistNewStudent();
         assertNotNull(student.getId());
         Transcript transcript = new Transcript();
         transcript.setStudent(student);
@@ -48,6 +51,8 @@ class TranscriptDaoImplTest extends SpringTest {
     @Commit
     void deleteById() {
         transcriptDao.deleteById(TEST_ID);
+        flushContext();
+
         Optional<Transcript> transcript = transcriptDao.findByStudentId(TEST_ID);
         assertFalse(transcript.isPresent());
     }

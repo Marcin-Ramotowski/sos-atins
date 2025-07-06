@@ -18,10 +18,13 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-class GradeDaoImplTest extends SpringTest {
+class GradeDaoTest extends BaseIntegrationTest {
 
     public static final String COMMENT = "Comment";
     public static final double GRADE = 5.0;
@@ -77,6 +80,8 @@ class GradeDaoImplTest extends SpringTest {
         assertTrue(grade.isPresent());
         Grade gradeToUpdate = grade.get();
         gradeToUpdate.setComment(NEW_COMMENT);
+        flushContext();
+
         Optional<Grade> updated = gradeDao.update(gradeToUpdate);
         assertTrue(updated.isPresent());
         assertEquals(gradeToUpdate.getComment(), updated.get().getComment());
@@ -95,6 +100,8 @@ class GradeDaoImplTest extends SpringTest {
     @Order(99)
     void deleteById() {
         gradeDao.deleteById(TEST_ID);
+        flushContext();
+
         assertFalse(gradeDao.findById(TEST_ID).isPresent());
     }
 }

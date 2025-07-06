@@ -12,10 +12,13 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-public class DepartmentDaoImplTest extends SpringTest {
+public class DepartmentDaoTest extends BaseIntegrationTest {
 
     public static final String LOCALIZATION = "Localization";
     public static final String HEAD = "Head";
@@ -62,6 +65,8 @@ public class DepartmentDaoImplTest extends SpringTest {
         assertTrue(department.isPresent());
         Department departmentToUpdate = department.get();
         departmentToUpdate.setName(NEW_NAME);
+        flushContext();
+
         Optional<Department> updated = departmentDao.update(departmentToUpdate);
         assertTrue(updated.isPresent());
         assertEquals(departmentToUpdate.getName(), updated.get().getName());
@@ -87,6 +92,8 @@ public class DepartmentDaoImplTest extends SpringTest {
     @Commit
     void deleteById() {
         departmentDao.deleteById(TEST_ID);
+        flushContext();
+
         assertFalse(departmentDao.findById(TEST_ID).isPresent());
     }
 }
