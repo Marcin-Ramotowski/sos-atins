@@ -13,10 +13,13 @@ import pl.atins.sos.model.UniversityClass;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-class ScheduleDaoImplTest extends SpringTest {
+class ScheduleDaoTest extends BaseIntegrationTest {
 
     private static long TEST_STUDENT_ID = 1L;
     private static long TEST_CLASS_ID = 0L;
@@ -32,7 +35,7 @@ class ScheduleDaoImplTest extends SpringTest {
     @Commit
     void create() {
         Schedule schedule = new Schedule();
-        Student student = getNewStudent();
+        Student student = constructAndPersistNewStudent();
         assertNotNull(student);
         schedule.setStudent(student);
         Optional<UniversityClass> classUniver = classDao.findById(0L);
@@ -58,6 +61,8 @@ class ScheduleDaoImplTest extends SpringTest {
     @Commit
     void deleteById() {
         scheduleDao.deleteById(TEST_STUDENT_ID, TEST_CLASS_ID);
+        flushContext();
+
         assertFalse(scheduleDao.findByStudentId(TEST_STUDENT_ID).isPresent());
     }
 

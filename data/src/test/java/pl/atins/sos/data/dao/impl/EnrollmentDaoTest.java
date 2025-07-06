@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-public class EnrollmentDaoTest extends SpringTest {
+public class EnrollmentDaoTest extends BaseIntegrationTest {
 
     @Autowired
     private EnrollmentDao enrollmentDao;
@@ -24,13 +24,16 @@ public class EnrollmentDaoTest extends SpringTest {
     @Commit
     void findByStudentId_returnsEnrollmentAfterEnrollment() {
         // Arrange
-        Student student = getNewStudent();
-        Subject subject = getNewSubject();
+        Student student = constructAndPersistNewStudent();
+        Subject subject = constructAndPersistNewSubject();
+        flushContext();
 
         Enrollment enrollment = constructEnrollmentForStudentAndSubject(student, subject);
 
         // Act
         enrollmentDao.create(enrollment);
+        flushContext();
+
         List<Enrollment> enrollmentsFromFind = enrollmentDao.findByStudentId(student.getId());
 
         // Assert
@@ -42,7 +45,8 @@ public class EnrollmentDaoTest extends SpringTest {
     @Commit
     void getEnrollmentsForStudent_returnsNoEnrollmentsForNewStudent() {
         // Arrange
-        Student student = getNewStudent();
+        Student student = constructAndPersistNewStudent();
+        flushContext();
 
         // Act
         List<Enrollment> enrollments = enrollmentDao.findByStudentId(student.getId());
@@ -55,14 +59,19 @@ public class EnrollmentDaoTest extends SpringTest {
     @Commit
     void getEnrollmentsForStudent_returnsNoEnrollmentsAfterUnregistration() {
         // Arrange
-        Student student = getNewStudent();
-        Subject subject = getNewSubject();
+        Student student = constructAndPersistNewStudent();
+        Subject subject = constructAndPersistNewSubject();
+        flushContext();
 
         Enrollment enrollment = constructEnrollmentForStudentAndSubject(student, subject);
 
         // Act
         enrollmentDao.create(enrollment);
+        flushContext();
+
         enrollmentDao.unregisterStudentFromSubject(student.getId(), subject.getId());
+        flushContext();
+
         List<Enrollment> enrollments = enrollmentDao.findByStudentId(student.getId());
 
         // Assert

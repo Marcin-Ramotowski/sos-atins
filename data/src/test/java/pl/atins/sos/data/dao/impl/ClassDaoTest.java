@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
-public class ClassDaoTest extends SpringTest {
+public class ClassDaoTest extends BaseIntegrationTest {
 
     @Autowired
     private ClassDao classDao;
@@ -25,13 +25,14 @@ public class ClassDaoTest extends SpringTest {
     private SubjectDao subjectDao;
 
     @Test
-    @Commit
     void findBySubjectId_returnsNoClassesForNewSubject() {
         // Arrange
         Subject subject = constructRandomSubject();
 
         // Act
         subjectDao.create(subject);
+        flushContext();
+
         List<UniversityClass> classes = classDao.findBySubjectId(subject.getId());
 
         // Assert
@@ -42,14 +43,18 @@ public class ClassDaoTest extends SpringTest {
     @Commit
     void findBySubjectId_containsAddedClasses() {
         // Arrange
-        Subject subject = getNewSubject();
-        Teacher teacher = getNewTeacher();
+        Subject subject = constructAndPersistNewSubject();
+        Teacher teacher = constructAndPersistNewTeacher();
+        flushContext();
+
         UniversityClass addedClass1 = constructRandomClassForSubjectAndTeacher(subject, teacher);
         UniversityClass addedClass2 = constructRandomClassForSubjectAndTeacher(subject, teacher);
 
         // Act
         classDao.create(addedClass1);
         classDao.create(addedClass2);
+        flushContext();
+
         List<UniversityClass> classes = classDao.findBySubjectId(subject.getId());
 
         // Assert

@@ -4,34 +4,38 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import pl.atins.sos.data.dao.DepartmentDao;
 import pl.atins.sos.data.dao.StudentDao;
 import pl.atins.sos.data.dao.SubjectDao;
 import pl.atins.sos.data.dao.TeacherDao;
-import pl.atins.sos.model.*;
+import pl.atins.sos.model.Department;
+import pl.atins.sos.model.EmploymentType;
+import pl.atins.sos.model.Enrollment;
+import pl.atins.sos.model.ModeOfStudy;
+import pl.atins.sos.model.Specialization;
+import pl.atins.sos.model.Student;
+import pl.atins.sos.model.Subject;
+import pl.atins.sos.model.Teacher;
+import pl.atins.sos.model.TitleOfGrade;
+import pl.atins.sos.model.UniversityClass;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.OffsetTime;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringJUnitConfig(locations = "classpath:applicationContext.xml")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-class SpringTest {
-
-    @Autowired
-    protected ApplicationContext context;
+public abstract class BaseIntegrationTest {
 
     @Autowired
     private StudentDao studentDao;
@@ -45,13 +49,15 @@ class SpringTest {
     @Autowired
     private TeacherDao teacherDao;
 
-    @Test
-    @Order(0)
-    void contextLoads() {
-        assertNotNull(context);
+    @PersistenceContext
+    private EntityManager em;
+
+    protected void flushContext() {
+        em.flush();
+        em.clear();
     }
 
-    protected Student getNewStudent() {
+    protected Student constructAndPersistNewStudent() {
         Random random = new Random();
         Student student = new Student();
         student.setFirstName("FirstName");
@@ -60,7 +66,7 @@ class SpringTest {
         student.setEmail("em@i.l");
         student.setAdmin(false);
         student.setLogin("login" + random.nextInt());
-        student.setPassword("Password".getBytes());
+        student.setPassword(Arrays.copyOf("Password".getBytes(StandardCharsets.UTF_8), 64));
         student.setAvgScore(5.0);
         student.setAgreementNum(123);
         student.setStudentNumber(random.nextInt());
@@ -82,13 +88,13 @@ class SpringTest {
         return student;
     }
 
-    protected Teacher getNewTeacher() {
+    protected Teacher constructAndPersistNewTeacher() {
         Teacher teacher = constructRandomTeacher();
         teacherDao.create(teacher);
         return teacher;
     }
 
-    protected Subject getNewSubject() {
+    protected Subject constructAndPersistNewSubject() {
         Subject subject = constructRandomSubject();
         subjectDao.create(subject);
         return subject;
@@ -105,7 +111,7 @@ class SpringTest {
         teacher.setEmail("em@i.l");
         teacher.setAdmin(false);
         teacher.setLogin("login" + random.nextInt());
-        teacher.setPassword("Password".getBytes());
+        teacher.setPassword(Arrays.copyOf("Password".getBytes(StandardCharsets.UTF_8), 64));
         teacher.setMfaEnabled(false);
         teacher.setActive(true);
         teacher.setDegree("PhD");
