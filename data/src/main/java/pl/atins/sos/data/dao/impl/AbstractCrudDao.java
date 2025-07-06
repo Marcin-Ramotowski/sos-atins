@@ -71,8 +71,4 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
     public void deleteById(long id) {
         findById(id).ifPresent(this::delete);
     }
-
-    protected String getEntityName() {
-        return entityName;
-    }
 }

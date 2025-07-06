@@ -17,7 +17,7 @@ public class ClassDaoImpl extends AbstractCrudDao<UniversityClass> implements Cl
 
     @Override
     public List<UniversityClass> findBySubjectId(long subjectId) {
-        Query query = em.createQuery("FROM " + getEntityName() + " class where class.subject.id = :id");
+        Query query = em.createQuery("FROM UniversityClass class where class.subject.id = :id");
         query.setParameter("id", subjectId);
         return query.getResultList();
     }
