@@ -14,7 +14,7 @@ public class EnrollmentDaoImpl extends AbstractCrudDao<Enrollment> implements En
     @Override
     public void unregisterStudentFromSubject(long studentId, long subjectId) {
         QueryUtils.runDirectQuerySafely(em, () -> {
-            Query query = em.createQuery("DELETE FROM " + getEntityName() + " e"
+            Query query = em.createQuery("DELETE FROM Enrollment e"
                     + " WHERE e.subject.id = :subjectId AND e.student.id = :studentId");
             query.setParameter("subjectId", subjectId);
             query.setParameter("studentId", studentId);
@@ -24,7 +24,7 @@ public class EnrollmentDaoImpl extends AbstractCrudDao<Enrollment> implements En
 
     @Override
     public List<Enrollment> findByStudentId(long studentId) {
-        Query query = em.createQuery("FROM " + getEntityName() + " e where e.student.id = :id");
+        Query query = em.createQuery("FROM Enrollment e where e.student.id = :id");
         query.setParameter("id", studentId);
         return query.getResultList();
     }
