@@ -92,4 +92,12 @@ public class Teacher extends User {
     public Set<Subject> getSubjects() {
         return subjects;
     }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 }

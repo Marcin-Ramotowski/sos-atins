@@ -8,6 +8,7 @@ import pl.atins.sos.data.dao.CrudDao;
 import pl.atins.sos.model.BaseEntity;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -22,8 +23,21 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
     private final String entityName = getEntityClass().getSimpleName();
 
     @Override
+    public List<T> findAll() {
+        Query query = em.createQuery("SELECT e FROM " + entityName + " e");
+        return query.getResultList();
+    }
+
+    @Override
     public Optional<T> findById(long id) {
-        return Optional.ofNullable(em.find(getEntityClass(), id));
+        Query query = em.createQuery("SELECT e FROM " + entityName + " e WHERE e.id = :id");
+        query.setParameter("id", id);
+        List<T> result = query.getResultList();
+        if(result.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(result.getFirst());
+        }
     }
 
     @Override
@@ -59,5 +73,9 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
         Query query = em.createQuery("DELETE FROM " + entityName + " e WHERE e.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    protected String getEntityName() {
+        return entityName;
     }
 }
