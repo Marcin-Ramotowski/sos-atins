@@ -33,7 +33,7 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
         Query query = em.createQuery("SELECT e FROM " + entityName + " e WHERE e.id = :id");
         query.setParameter("id", id);
         List<T> result = query.getResultList();
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             return Optional.empty();
         } else {
             return Optional.ofNullable(result.getFirst());
@@ -69,10 +69,7 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
 
     @Override
     public void deleteById(long id) {
-        // entityName is always a class name, hence injection is almost certainly impossible here
-        Query query = em.createQuery("DELETE FROM " + entityName + " e WHERE e.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        findById(id).ifPresent(this::delete);
     }
 
     protected String getEntityName() {
