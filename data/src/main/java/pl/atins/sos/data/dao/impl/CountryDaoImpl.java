@@ -14,7 +14,7 @@ import java.util.Optional;
 public class CountryDaoImpl extends AbstractCrudDao<Country> implements CountryDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     protected Class<Country> getEntityClass() {
