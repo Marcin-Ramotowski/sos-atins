@@ -17,6 +17,8 @@ public class AddressDaoTest {
 
     private AddressDaoImpl addressDao;
     private EntityManager em;
+    @SuppressWarnings("unchecked")
+    private final TypedQuery<Address> mockQuery = (TypedQuery<Address>) mock(TypedQuery.class);
 
     @BeforeEach
     void setup() {
@@ -28,7 +30,6 @@ public class AddressDaoTest {
     @Test
     void testFindAllByUserId() {
         long userId = 1L;
-        TypedQuery<Address> mockQuery = mock(TypedQuery.class);
         List<Address> mockResult = List.of(new Address());
 
         when(em.createQuery(anyString(), eq(Address.class))).thenReturn(mockQuery);
@@ -44,7 +45,6 @@ public class AddressDaoTest {
     @Test
     void testFindAllByCityId() {
         long cityId = 2L;
-        TypedQuery<Address> mockQuery = mock(TypedQuery.class);
         when(em.createQuery(anyString(), eq(Address.class))).thenReturn(mockQuery);
         when(mockQuery.setParameter("cityId", cityId)).thenReturn(mockQuery);
         when(mockQuery.getResultList()).thenReturn(List.of());
@@ -57,7 +57,6 @@ public class AddressDaoTest {
     @Test
     void testFindAllByCountryId() {
         long countryId = 3L;
-        TypedQuery<Address> mockQuery = mock(TypedQuery.class);
         when(em.createQuery(anyString(), eq(Address.class))).thenReturn(mockQuery);
         when(mockQuery.setParameter("countryId", countryId)).thenReturn(mockQuery);
         when(mockQuery.getResultList()).thenReturn(List.of());
@@ -72,7 +71,6 @@ public class AddressDaoTest {
     void testGetDefaultAddress_found() {
         long userId = 4L;
         Address mockAddress = new Address();
-        TypedQuery<Address> mockQuery = mock(TypedQuery.class);
         when(em.createQuery(anyString(), eq(Address.class))).thenReturn(mockQuery);
         when(mockQuery.setParameter("userId", userId)).thenReturn(mockQuery);
         when(mockQuery.getResultList()).thenReturn(List.of(mockAddress));
@@ -86,7 +84,6 @@ public class AddressDaoTest {
     @Test
     void testGetDefaultAddress_notFound() {
         long userId = 5L;
-        TypedQuery<Address> mockQuery = mock(TypedQuery.class);
         when(em.createQuery(anyString(), eq(Address.class))).thenReturn(mockQuery);
         when(mockQuery.setParameter("userId", userId)).thenReturn(mockQuery);
         when(mockQuery.getResultList()).thenReturn(List.of());
