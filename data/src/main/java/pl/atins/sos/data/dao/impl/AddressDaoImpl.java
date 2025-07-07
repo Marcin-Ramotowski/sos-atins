@@ -14,7 +14,7 @@ import java.util.Optional;
 public class AddressDaoImpl extends AbstractCrudDao<Address> implements AddressDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     protected Class<Address> getEntityClass() {
