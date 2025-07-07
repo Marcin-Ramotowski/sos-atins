@@ -38,7 +38,7 @@ public class CityDaoImpl extends AbstractCrudDao<City> implements CityDao {
                 City.class
         ).setParameter("cityCode", code);
         List<City> results = query.getResultList();
-        return results.stream().findFirst();
+        return Optional.ofNullable(results.getFirst());
     }
 
     @Override
