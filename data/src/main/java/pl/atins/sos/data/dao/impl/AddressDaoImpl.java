@@ -2,17 +2,16 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.AddressDao;
 import pl.atins.sos.model.Address;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Repository
-public class AddressDaoImpl extends AbstractCrudDao implements AddressDao {
+public class AddressDaoImpl extends AbstractCrudDao<Address> implements AddressDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -22,60 +21,55 @@ public class AddressDaoImpl extends AbstractCrudDao implements AddressDao {
         return Address.class;
     }
 
-
-
-    @Override
-    public Optional<Address> findById(long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void create(Address entity) {
-
-    }
-
-    @Override
-    public Optional<Address> update(Address entity) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Address> updateById(long id, Consumer updater) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void delete(Address entity) {
-
-    }
-
-    @Override
-    public void deleteById(long id) {
-
-    }
-
     @Override
     public List<Address> findAllByUserId(long userId) {
-        return List.of();
+        TypedQuery<Address> query = em.createQuery(
+                "SELECT a FROM Address a WHERE a.user.id = :userId",
+                Address.class
+        );
+        query.setParameter("userId", userId);
+        return query.getResultList();
     }
 
     @Override
-    public List<Address> findAllByCity(String city) {
-        return List.of();
+    public List<Address> findAllByCityId(long cityId) {
+        TypedQuery<Address> query = em.createQuery(
+                "SELECT a FROM Address a WHERE a.city.id = :cityId",
+                Address.class
+        );
+        query.setParameter("cityId", cityId);
+        return query.getResultList();
     }
 
     @Override
-    public List<Address> findAllByCountry(String country) {
-        return List.of();
+    public List<Address> findAllByCountryId(long countryId) {
+        TypedQuery<Address> query = em.createQuery(
+                "SELECT a FROM Address a WHERE a.country.id = :countryId",
+                Address.class
+        );
+        query.setParameter("countryId", countryId);
+        return query.getResultList();
     }
 
     @Override
     public Optional<Address> getDefaultAddress(long userId) {
-        return Optional.empty();
+        TypedQuery<Address> query = em.createQuery(
+                "SELECT a FROM Address a WHERE a.user_id = :userId AND a.isDefault = TRUE",
+                Address.class
+        ).setParameter("userId", userId);
+        List<Address> results = query.getResultList();
+        return results.stream().findFirst();
     }
 
     @Override
     public void setDefaultAddress(long userId, long addressId) {
-
+    // 1. Ustaw wszystkie adresy użytkownika jako niedomyślne
+    em.createQuery("UPDATE Address a SET a.isDefault = FALSE WHERE a.user_id = :userId"
+            ).setParameter("userId", userId)
+            .executeUpdate();
+    // 2. Ustaw wybrany adres jako domyślny
+    em.createQuery("UPDATE Address a SET a.isDefault = TRUE WHERE a.id = :addressId"
+            ).setParameter("addressId", addressId)
+            .executeUpdate();
     }
 }
