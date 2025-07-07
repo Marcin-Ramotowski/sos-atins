@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.AddressDao;
+import pl.atins.sos.data.dao.util.QueryUtils;
 import pl.atins.sos.model.Address;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class AddressDaoImpl extends AbstractCrudDao<Address> implements AddressD
     @Override
     public Optional<Address> getDefaultAddress(long userId) {
         TypedQuery<Address> query = em.createQuery(
-                "SELECT a FROM Address a WHERE a.user_id = :userId AND a.isDefault = TRUE",
+                "SELECT a FROM Address a WHERE a.user.id = :userId AND a.isDefault = TRUE",
                 Address.class
         ).setParameter("userId", userId);
         List<Address> results = query.getResultList();
@@ -63,13 +64,16 @@ public class AddressDaoImpl extends AbstractCrudDao<Address> implements AddressD
 
     @Override
     public void setDefaultAddress(long userId, long addressId) {
-    // 1. Ustaw wszystkie adresy użytkownika jako niedomyślne
-    em.createQuery("UPDATE Address a SET a.isDefault = FALSE WHERE a.user_id = :userId"
-            ).setParameter("userId", userId)
-            .executeUpdate();
-    // 2. Ustaw wybrany adres jako domyślny
-    em.createQuery("UPDATE Address a SET a.isDefault = TRUE WHERE a.id = :addressId"
-            ).setParameter("addressId", addressId)
-            .executeUpdate();
+        QueryUtils.runDirectQuerySafely(em, () -> {
+            // 1. Ustaw wszystkie adresy użytkownika jako niedomyślne
+            em.createQuery("UPDATE Address a SET a.isDefault = FALSE WHERE a.user.id = :userId")
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+
+            // 2. Ustaw wybrany adres jako domyślny
+            em.createQuery("UPDATE Address a SET a.isDefault = TRUE WHERE a.id = :addressId")
+                    .setParameter("addressId", addressId)
+                    .executeUpdate();
+        });
     }
 }
