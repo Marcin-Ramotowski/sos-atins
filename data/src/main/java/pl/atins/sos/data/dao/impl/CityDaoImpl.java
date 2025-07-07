@@ -14,7 +14,7 @@ import java.util.Optional;
 public class CityDaoImpl extends AbstractCrudDao<City> implements CityDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     protected Class<City> getEntityClass() {
