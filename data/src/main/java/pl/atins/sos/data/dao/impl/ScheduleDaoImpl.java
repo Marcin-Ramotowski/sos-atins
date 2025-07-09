@@ -2,7 +2,7 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.ScheduleDao;
@@ -15,11 +15,11 @@ import java.util.Optional;
 @Transactional
 public class ScheduleDaoImpl implements ScheduleDao {
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     public Optional<Schedule> findByStudentId(Long id) {
-        Query query = em.createQuery("FROM Schedule s where s.student.id=:studentId", Schedule.class);
+        TypedQuery<Schedule> query = em.createQuery("FROM Schedule s where s.student.id=:studentId", Schedule.class);
         query.setParameter("studentId", id);
         List<Schedule> singleResult = query.getResultList();
         return singleResult.isEmpty() ? Optional.empty() : Optional.of(singleResult.getFirst());
