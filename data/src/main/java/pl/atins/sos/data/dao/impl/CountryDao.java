@@ -2,7 +2,7 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.model.Country;
 
@@ -12,10 +12,10 @@ import java.util.List;
 public class CountryDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     public List<Country> findAll() {
-        Query query = em.createQuery("from Country");
-        return (List<Country>) query.getResultList();
+        TypedQuery<Country> query = em.createQuery("from Country", Country.class);
+        return query.getResultList();
     }
 }
