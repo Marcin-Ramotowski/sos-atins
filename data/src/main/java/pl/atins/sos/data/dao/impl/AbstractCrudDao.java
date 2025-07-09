@@ -2,7 +2,7 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import pl.atins.sos.data.dao.CrudDao;
 import pl.atins.sos.model.BaseEntity;
@@ -24,13 +24,13 @@ public abstract class AbstractCrudDao<T extends BaseEntity> implements CrudDao<T
 
     @Override
     public List<T> findAll() {
-        Query query = em.createQuery("SELECT e FROM " + entityName + " e");
+        TypedQuery<T> query = em.createQuery("SELECT e FROM " + entityName + " e", getEntityClass());
         return query.getResultList();
     }
 
     @Override
     public Optional<T> findById(long id) {
-        Query query = em.createQuery("SELECT e FROM " + entityName + " e WHERE e.id = :id");
+        TypedQuery<T>  query = em.createQuery("SELECT e FROM " + entityName + " e WHERE e.id = :id", getEntityClass());
         query.setParameter("id", id);
         List<T> result = query.getResultList();
         if (result.isEmpty()) {

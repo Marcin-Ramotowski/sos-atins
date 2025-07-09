@@ -2,7 +2,7 @@ package pl.atins.sos.data.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.LoginDao;
@@ -16,7 +16,7 @@ import java.util.List;
 public class LoginDaoImpl implements LoginDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     public void create(Login login) {
@@ -27,7 +27,7 @@ public class LoginDaoImpl implements LoginDao {
 
     @Override
     public List<Login> findByUserId(long userId) {
-        Query query = em.createQuery("SELECT l FROM Login l WHERE l.user.id = :user_id");
+        TypedQuery<Login> query = em.createQuery("SELECT l FROM Login l WHERE l.user.id = :user_id", Login.class);
         query.setParameter("user_id", userId);
         return (List<Login>) query.getResultList();
     }

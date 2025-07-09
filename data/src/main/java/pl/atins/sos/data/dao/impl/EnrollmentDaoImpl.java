@@ -1,6 +1,6 @@
 package pl.atins.sos.data.dao.impl;
 
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 import pl.atins.sos.data.dao.EnrollmentDao;
 import pl.atins.sos.data.dao.util.QueryUtils;
@@ -14,8 +14,8 @@ public class EnrollmentDaoImpl extends AbstractCrudDao<Enrollment> implements En
     @Override
     public void unregisterStudentFromSubject(long studentId, long subjectId) {
         QueryUtils.runDirectQuerySafely(em, () -> {
-            Query query = em.createQuery("DELETE FROM Enrollment e"
-                    + " WHERE e.subject.id = :subjectId AND e.student.id = :studentId");
+            TypedQuery<Enrollment> query = em.createQuery("DELETE FROM Enrollment e"
+                    + " WHERE e.subject.id = :subjectId AND e.student.id = :studentId", Enrollment.class);
             query.setParameter("subjectId", subjectId);
             query.setParameter("studentId", studentId);
             query.executeUpdate();
@@ -24,7 +24,7 @@ public class EnrollmentDaoImpl extends AbstractCrudDao<Enrollment> implements En
 
     @Override
     public List<Enrollment> findByStudentId(long studentId) {
-        Query query = em.createQuery("FROM Enrollment e where e.student.id = :id");
+        TypedQuery<Enrollment> query = em.createQuery("FROM Enrollment e where e.student.id = :id", Enrollment.class);
         query.setParameter("id", studentId);
         return query.getResultList();
     }

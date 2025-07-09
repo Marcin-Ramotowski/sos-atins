@@ -1,9 +1,6 @@
 package pl.atins.sos.data.dao.impl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.UserDao;
@@ -17,12 +14,12 @@ import java.util.Optional;
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Override
     public void activateById(long id) {
         QueryUtils.runDirectQuerySafely(em, () -> {
-            Query query = em.createQuery("UPDATE User u SET u.active = true WHERE u.id = :id");
+            TypedQuery<User> query = em.createQuery("UPDATE User u SET u.active = true WHERE u.id = :id", User.class);
             query.setParameter("id", id);
             query.executeUpdate();
         });
@@ -30,10 +27,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByLogin(String login) {
-        Query query = em.createQuery("SELECT u FROM User u WHERE u.login = :login");
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
         try {
-            return Optional.of((User) query.getSingleResult());
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
         }
