@@ -48,7 +48,7 @@ curl -X GET http://localhost:8080/teachers/2
 curl -X PUT http://localhost:8080/teachers/2 -H 'Content-Type: application/json' -d '{"mfaEnabled":true,"email":"test@domain.name","admin":true}'
 
 # Usuń wykładowcę
-curl -X DELETE http://localhost:8080/users/2
+curl -X DELETE http://localhost:8080/teachers/2
 ```
 
 ### Books
