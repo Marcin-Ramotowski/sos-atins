@@ -1,6 +1,10 @@
 package pl.atins.sos.data.dao.impl;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.atins.sos.data.dao.UserDao;
@@ -19,7 +23,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void activateById(long id) {
         QueryUtils.runDirectQuerySafely(em, () -> {
-            TypedQuery<User> query = em.createQuery("UPDATE User u SET u.active = true WHERE u.id = :id", User.class);
+            Query query = em.createQuery("UPDATE User u SET u.active = true WHERE u.id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
         });
