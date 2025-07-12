@@ -38,6 +38,10 @@ public class CountryDaoImpl extends AbstractCrudDao<Country> implements CountryD
                 Country.class
         ).setParameter("countryCode", code);
         List<Country> results = query.getResultList();
-        return Optional.ofNullable(results.getFirst());
+        if (results.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(results.getFirst());
+        }
     }
 }

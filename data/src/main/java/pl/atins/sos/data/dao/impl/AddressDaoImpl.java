@@ -59,7 +59,11 @@ public class AddressDaoImpl extends AbstractCrudDao<Address> implements AddressD
                 Address.class
         ).setParameter("userId", userId);
         List<Address> results = query.getResultList();
-        return Optional.ofNullable(results.getFirst());
+        if (results.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(results.getFirst());
+        }
     }
 
     @Override
